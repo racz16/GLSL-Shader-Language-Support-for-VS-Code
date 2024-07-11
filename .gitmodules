@@ -1,0 +1,3 @@
+[submodule "GLSL-Language-Server"]
+	path = GLSL-Language-Server
+	url = https://github.com/racz16/GLSL-Language-Server.git
