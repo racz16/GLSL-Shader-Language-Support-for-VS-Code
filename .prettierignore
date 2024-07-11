@@ -1,0 +1,8 @@
+# folder
+.vscode-test
+dist
+node_modules
+out
+
+# file
+package-lock.json
