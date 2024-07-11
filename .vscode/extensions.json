@@ -4,6 +4,10 @@
         "amodio.tsl-problem-matcher",
         "ms-vscode.extension-test-runner",
         "esbenp.prettier-vscode",
-        "editorconfig.editorconfig"
+        "editorconfig.editorconfig",
+        "github.vscode-github-actions",
+        "robertohuertasm.vscode-marketplace-preview",
+        "redcmd.tmlanguage-syntax-highlighter",
+        "mike-lischke.vscode-antlr4"
     ]
 }
