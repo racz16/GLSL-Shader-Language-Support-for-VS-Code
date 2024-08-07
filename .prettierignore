@@ -1,8 +1,9 @@
 # folder
 .vscode-test
-dist
+.vscode-test-web
 node_modules
 out
+out-test
 
 # file
 package-lock.json

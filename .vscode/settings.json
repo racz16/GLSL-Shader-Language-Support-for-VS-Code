@@ -13,10 +13,10 @@
     },
     "files.exclude": {
         "out": false,
-        "dist": false
+        "out-test": false
     },
     "search.exclude": {
         "out": true,
-        "dist": true
+        "out-test": true
     }
 }

@@ -1,48 +1,84 @@
 //@ts-check
-
 'use strict';
-
-const path = require('path');
-
-//@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
-/** @type WebpackConfig */
-const extensionConfig = {
-  target: 'node', // VS Code extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
-	mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
+module.exports = (_env, argv) => {
+    const getServerConfigs = require('./GLSL-Language-Server/webpack.config.js');
+    const [serverDesktopConfig, serverWebConfig] = getServerConfigs(_env, argv);
+    const isProductionMode = argv.mode === 'production';
+    const path = require('path');
 
-  entry: './src/extension.ts', // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
-  output: {
-    // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'extension.js',
-    libraryTarget: 'commonjs2'
-  },
-  externals: {
-    vscode: 'commonjs vscode' // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
-    // modules added here also need to be added in the .vscodeignore file
-  },
-  resolve: {
-    // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
-    extensions: ['.ts', '.js']
-  },
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'ts-loader'
-          }
-        ]
-      }
-    ]
-  },
-  devtool: 'nosources-source-map',
-  infrastructureLogging: {
-    level: "log", // enables logging required for problem matchers
-  },
+    /** @type WebpackConfig */
+    const clientWebConfig = {
+        context: path.join(__dirname),
+        mode: isProductionMode ? 'production' : 'development',
+        target: 'webworker',
+        entry: './src/client-web.ts',
+        output: {
+            filename: 'client-web.js',
+            path: path.join(__dirname, 'out'),
+            libraryTarget: 'commonjs',
+        },
+        resolve: {
+            mainFields: ['module', 'main'],
+            extensions: ['.ts', '.js'],
+            alias: {
+                '@vscode/extension-telemetry': path.resolve(
+                    __dirname,
+                    'node_modules/@vscode/extension-telemetry/dist/browser/browser/telemetryReporter.js'
+                ),
+            },
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.ts$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'ts-loader',
+                        },
+                    ],
+                },
+            ],
+        },
+        externals: {
+            vscode: 'commonjs vscode',
+        },
+    };
+
+    /** @type WebpackConfig */
+    const clientDesktopConfig = {
+        context: path.join(__dirname),
+        mode: isProductionMode ? 'production' : 'development',
+        target: 'node',
+        entry: './src/client-desktop.ts',
+        output: {
+            filename: 'client-desktop.js',
+            path: path.resolve(__dirname, 'out'),
+            libraryTarget: 'commonjs2',
+            devtoolModuleFilenameTemplate: '../[resource-path]',
+        },
+        resolve: {
+            extensions: ['.ts', '.js'],
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.ts$/,
+                    exclude: /node_modules/,
+                    use: [
+                        {
+                            loader: 'ts-loader',
+                        },
+                    ],
+                },
+            ],
+        },
+        externals: {
+            vscode: 'commonjs vscode',
+        },
+        devtool: isProductionMode ? false : 'source-map',
+    };
+    return [clientDesktopConfig, clientWebConfig, serverDesktopConfig, serverWebConfig];
 };
-module.exports = [ extensionConfig ];

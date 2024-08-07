@@ -4,33 +4,232 @@
     "description": "A VS Code extension to support the GLSL shader language.",
     "version": "0.0.1",
     "engines": {
-        "vscode": "^1.91.0"
+        "vscode": "^1.82.0"
     },
     "categories": [
         "Other"
     ],
-    "activationEvents": [],
-    "main": "./dist/extension.js",
+    "main": "./out/client-desktop",
+    "browser": "./out/client-web",
     "contributes": {
-        "commands": [
+        "languages": [
             {
-                "command": "glsl-shader-language-support.helloWorld",
-                "title": "Hello World"
+                "id": "glsl",
+                "aliases": [
+                    "GLSL",
+                    "glsl",
+                    "GLSL ES",
+                    "ESSL"
+                ],
+                "extensions": [
+                    ".glsl",
+                    ".vert",
+                    ".tesc",
+                    ".tese",
+                    ".geom",
+                    ".frag",
+                    ".comp"
+                ],
+                "configuration": "./GLSL-Language-Server/grammar/language-configuration.json"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "GLSL Shader Language Support",
+            "properties": {
+                "glslLanguageServer.diagnostics.enable": {
+                    "order": 1,
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If enabled, the extension shows diagnostic information, like errors and warnings in the source code. If disabled, it doesn't show diagnostic information. Note that it only works in files where the shader stage can be determined. This feature only works in desktop VS Code, not in VS Code for the Web."
+                },
+                "glslLanguageServer.diagnostics.workspace": {
+                    "order": 2,
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If enabled, the extension shows diagnostic information for all GLSL files in the workspace. If disabled, it shows diagnostic information only for opened GLSL files."
+                },
+                "glslLanguageServer.diagnostics.markTheWholeLine": {
+                    "order": 3,
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If enabled, the extension underlines the whole line where there is diagnostic information. If disabled, it tries to underline only the relevant part of the line."
+                },
+                "glslLanguageServer.compiler.glslVersion": {
+                    "order": 4,
+                    "type": "string",
+                    "default": "",
+                    "enum": [
+                        "",
+                        "110",
+                        "120",
+                        "130",
+                        "140",
+                        "150",
+                        "330",
+                        "400",
+                        "410",
+                        "420",
+                        "430",
+                        "440",
+                        "450",
+                        "460",
+                        "100",
+                        "300es",
+                        "310es",
+                        "320es"
+                    ],
+                    "enumItemLabels": [
+                        "Not specified",
+                        "110",
+                        "120",
+                        "130",
+                        "140",
+                        "150",
+                        "330",
+                        "400",
+                        "410",
+                        "420",
+                        "430",
+                        "440",
+                        "450",
+                        "460",
+                        "100",
+                        "300 es",
+                        "310 es",
+                        "320 es"
+                    ],
+                    "description": "The version you want to use in all GLSL files."
+                },
+                "glslLanguageServer.compiler.targetEnvironment": {
+                    "order": 5,
+                    "type": "string",
+                    "default": "",
+                    "enum": [
+                        "",
+                        "opengl",
+                        "vulkan1.0",
+                        "vulkan1.1",
+                        "vulkan1.2",
+                        "vulkan1.3"
+                    ],
+                    "enumItemLabels": [
+                        "None",
+                        "OpenGL",
+                        "Vulkan 1.0",
+                        "Vulkan 1.1",
+                        "Vulkan 1.2",
+                        "Vulkan 1.3"
+                    ],
+                    "description": "The target environment you want to use in all GLSL files."
+                },
+                "glslLanguageServer.fileExtensions.vertexShader": {
+                    "order": 6,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".vert"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you consider vertex shader stage."
+                },
+                "glslLanguageServer.fileExtensions.tessellationControlShader": {
+                    "order": 7,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".tesc"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you consider tessellation control shader stage."
+                },
+                "glslLanguageServer.fileExtensions.tessellationEvaluationShader": {
+                    "order": 8,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".tese"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you consider tessellation evaluation shader stage."
+                },
+                "glslLanguageServer.fileExtensions.geometryShader": {
+                    "order": 9,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".geom"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you consider geometry shader stage."
+                },
+                "glslLanguageServer.fileExtensions.fragmentShader": {
+                    "order": 10,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".frag"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you consider fragment shader stage."
+                },
+                "glslLanguageServer.fileExtensions.computeShader": {
+                    "order": 11,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".comp"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you consider compute shader stage."
+                },
+                "glslLanguageServer.fileExtensions.generalShader": {
+                    "order": 12,
+                    "type": "array",
+                    "uniqueItems": true,
+                    "default": [
+                        ".glsl"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "pattern": "^\\.\\w+(\\.\\w+)*$"
+                    },
+                    "description": "The list of file extension that you use in multiple shader stages. Note, that the extension doesn't show diagnostic information in these files."
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run package",
-        "compile": "webpack",
+        "build": "webpack",
         "watch": "webpack --watch",
         "package": "webpack --mode production --devtool hidden-source-map",
-        "compile-tests": "tsc -p . --outDir out",
-        "watch-tests": "tsc -p . -w --outDir out",
+        "build-tests": "tsc -p . --outDir out-test",
+        "watch-tests": "tsc -p . -w --outDir out-test",
         "prettier-lint": "prettier --check .",
         "prettier-format": "prettier --write .",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
-        "eslint": "eslint ./src",
+        "pretest": "npm run build-tests && npm run build && npm run lint",
+        "lint": "eslint ./src",
         "test": "vscode-test",
+        "run-in-browser": "vscode-test-web --extensionDevelopmentPath=. .",
         "prepare": "husky install"
     },
     "devDependencies": {
@@ -38,9 +237,10 @@
         "@types/eslint__js": "^8.42.3",
         "@types/mocha": "^10.0.7",
         "@types/node": "20.x",
-        "@types/vscode": "^1.91.0",
+        "@types/vscode": "^1.82.0",
         "@vscode/test-cli": "^0.0.9",
         "@vscode/test-electron": "^2.4.0",
+        "@vscode/test-web": "^0.0.56",
         "eslint": "^8.57.0",
         "husky": "^9.0.11",
         "lint-staged": "^15.2.7",
@@ -51,6 +251,10 @@
         "typescript-eslint": "^7.16.0",
         "webpack": "^5.92.1",
         "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "@vscode/extension-telemetry": "^0.9.7",
+        "vscode-languageclient": "^9.0.1"
     },
     "lint-staged": {
         "*.{ts,json,yml,md}": "prettier --write"
