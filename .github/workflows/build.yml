@@ -25,7 +25,7 @@ jobs:
               run: npm ci
               working-directory: ./GLSL-Language-Server
             - name: ESLint
-              run: npm run eslint
+              run: npm run lint
             - name: Prettier lint
               run: npm run prettier-lint
             - name: Build in production mode
