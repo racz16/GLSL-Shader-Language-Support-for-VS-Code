@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "ES2018",
+        "lib": ["ES2018", "WebWorker"],
+        "module": "Node16",
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true
+    }
+}

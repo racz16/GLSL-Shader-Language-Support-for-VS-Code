@@ -1,0 +1,44 @@
+name: Build
+on: [push, pull_request]
+jobs:
+    build:
+        strategy:
+            matrix:
+                include:
+                    - os: windows-latest
+                      command: package-windows-x64
+                    - os: ubuntu-latest
+                      command: package-linux-x64
+                    - os: macos-latest
+                      command: package-macos-x64
+        runs-on: ${{ matrix.os }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  submodules: 'true'
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+            - name: Install dependencies for the client
+              run: npm ci
+            - name: Install dependencies for the language server
+              run: npm ci
+              working-directory: ./GLSL-Language-Server
+            - name: ESLint
+              run: npm run lint
+            - name: Prettier lint
+              run: npm run prettier-lint
+            - name: Build in production mode
+              run: npm run build-production
+            - name: Build the tests
+              run: npm run build-tests
+            - name: Run tests
+              run: xvfb-run -a npm test
+              if: runner.os == 'Linux'
+            - name: Run tests
+              run: npm test
+              if: runner.os != 'Linux'
+            - name: Create platform-specific package
+              run: npm run ${{ matrix.command }}
+            - name: Create Universal package
+              run: npm run package-universal
