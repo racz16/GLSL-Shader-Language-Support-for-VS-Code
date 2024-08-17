@@ -2,15 +2,41 @@
     "name": "glsl-shader-language-support",
     "displayName": "GLSL Shader Language Support",
     "description": "A VS Code extension to support the GLSL shader language.",
+    "publisher": "raczzalan",
+    "author": {
+        "name": "Rácz Zalán",
+        "email": "zalan.racz.dev@gmail.com",
+        "url": "https://github.com/racz16"
+    },
+    "homepage": "https://github.com/racz16/GLSL-Shader-Language-Support-for-VS-Code",
     "repository": {
         "type": "git",
         "url": "https://github.com/racz16/GLSL-Shader-Language-Support-for-VS-Code"
     },
+    "bugs": {
+        "email": "zalan.racz.dev@gmail.com",
+        "url": "https://github.com/racz16/GLSL-Shader-Language-Support-for-VS-Code/issues"
+    },
+    "license": "MIT",
     "version": "0.0.1",
+    "keywords": [
+        "GLSL",
+        "GLSL ES",
+        "ESSL",
+        "OpenGL Shading Language",
+        "shader",
+        "linters",
+        "WebGL",
+        "OpenGL",
+        "Vulkan"
+    ],
     "engines": {
         "vscode": "^1.82.0"
     },
     "categories": [
+        "Linters",
+        "Programming Languages",
+        "Snippets",
         "Other"
     ],
     "main": "./out/client-desktop",
@@ -35,6 +61,7 @@
                     ".frag",
                     ".comp"
                 ],
+                "firstLine": "\\s*#\\s*version\\s+\\d+(\\s+\\w+)?\\s*",
                 "configuration": "./GLSL-Language-Server/grammar/language-configuration.json"
             }
         ],
@@ -250,6 +277,7 @@
         "@vscode/test-cli": "^0.0.9",
         "@vscode/test-electron": "^2.4.0",
         "@vscode/test-web": "^0.0.56",
+        "@vscode/vsce": "^3.0.0",
         "eslint": "^8.57.0",
         "husky": "^9.0.11",
         "lint-staged": "^15.2.7",
@@ -258,7 +286,6 @@
         "ts-loader": "^9.5.1",
         "typescript": "^5.5.3",
         "typescript-eslint": "^7.16.0",
-        "vsce": "^2.15.0",
         "webpack": "^5.92.1",
         "webpack-cli": "^5.1.4"
     },
