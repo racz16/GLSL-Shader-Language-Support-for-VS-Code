@@ -16,8 +16,6 @@ jobs:
             - name: Install dependencies for the language server
               run: npm ci
               working-directory: ./GLSL-Language-Server
-            - name: Build in production mode
-              run: npm run build-production
             - name: Package universal
               run: npm run package-universal
             - name: Package to Windows x64
