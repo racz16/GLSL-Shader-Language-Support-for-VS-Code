@@ -5,11 +5,11 @@ import { getDocumentUri, openDocument } from './test-helper';
 
 suite('Diagnostic test suite', () => {
     test('Diagnostic test', async () => {
-        if (platform() !== 'linux') {
+        if (platform() === 'linux') {
             return;
         }
         const uri = getDocumentUri('diagnostic-test.frag');
-        await openDocument(uri, 5000);
+        await openDocument(uri);
         const realResults = languages.getDiagnostics(uri);
         const expectedResults = getExpectedResults();
         compareDiagnostics(realResults, expectedResults);

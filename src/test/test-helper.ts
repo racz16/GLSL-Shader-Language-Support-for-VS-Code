@@ -6,7 +6,7 @@ export function getDocumentUri(filePath: string): Uri {
     return Uri.file(path);
 }
 
-export async function openDocument(uri: Uri, wait = 0): Promise<void> {
+export async function openDocument(uri: Uri, wait = 2000): Promise<void> {
     const document = await workspace.openTextDocument(uri);
     await window.showTextDocument(document);
     await sleep(wait);
