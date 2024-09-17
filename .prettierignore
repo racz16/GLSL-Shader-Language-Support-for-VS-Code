@@ -3,6 +3,7 @@
 .vscode-test-web
 node_modules
 out
+test-fixture
 
 # file
 package-lock.json
