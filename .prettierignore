@@ -3,7 +3,6 @@
 .vscode-test-web
 node_modules
 out
-out-test
 
 # file
 package-lock.json

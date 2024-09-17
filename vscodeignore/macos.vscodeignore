@@ -5,7 +5,6 @@
 .vscode-test
 .vscode-test-web
 node_modules
-out-test
 src
 test-fixture
 

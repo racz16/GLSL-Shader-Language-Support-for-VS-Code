@@ -58,6 +58,6 @@ export default tseslint.config(
         },
     },
     {
-        ignores: ['.vscode-test', '.vscode-test-web', 'node_modules', 'out', 'out-test', '**/*.js', '**/*.d.ts'],
+        ignores: ['.vscode-test', '.vscode-test-web', 'node_modules', 'out', '**/*.js', '**/*.d.ts'],
     }
 );
