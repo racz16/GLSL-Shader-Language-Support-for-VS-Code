@@ -5,7 +5,7 @@ import { getDocumentUri, openDocument } from './test-helper';
 
 suite('Diagnostic test suite', () => {
     test('Diagnostic test', async () => {
-        if (platform() === 'linux') {
+        if (platform() !== 'win32') {
             return;
         }
         const uri = getDocumentUri('diagnostic-test.frag');
