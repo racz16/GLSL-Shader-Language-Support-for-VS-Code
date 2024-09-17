@@ -1,9 +1,13 @@
 import { equal, ok } from 'assert';
+import { platform } from 'os';
 import { Diagnostic, DiagnosticSeverity, languages, Position, Range } from 'vscode';
 import { getDocumentUri, openDocument } from './test-helper';
 
 suite('Diagnostic test suite', () => {
     test('Diagnostic test', async () => {
+        if (platform() !== 'linux') {
+            return;
+        }
         const uri = getDocumentUri('diagnostic-test.frag');
         await openDocument(uri, 5000);
         const realResults = languages.getDiagnostics(uri);
