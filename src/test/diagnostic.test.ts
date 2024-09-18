@@ -1,15 +1,11 @@
 import { equal, ok } from 'assert';
-import { platform } from 'os';
 import { Diagnostic, DiagnosticSeverity, languages, Position, Range } from 'vscode';
 import { getDocumentUri, openDocument } from './test-helper';
 
 suite('Diagnostic test suite', () => {
     test('Diagnostic test', async () => {
-        if (platform() !== 'win32') {
-            return;
-        }
         const uri = getDocumentUri('diagnostic-test.frag');
-        await openDocument(uri);
+        await openDocument(uri, 2000);
         const realResults = languages.getDiagnostics(uri);
         const expectedResults = getExpectedResults();
         compareDiagnostics(realResults, expectedResults);
