@@ -32,20 +32,6 @@ jobs:
               run: npm run prettier-lint
             - name: Build the tests
               run: npm run build-tests
-
-            - run: chmod +x glslangMac
-              working-directory: ./GLSL-Language-Server/res
-              if: runner.os == 'macOS'
-
-            - run: |
-                  ./glslangMac -C -l ../../test-fixture/diagnostic-test.frag > stdout.log 2> stderr.log
-                  echo "Standard Output:"
-                  cat stdout.log
-                  echo "Standard Error:"
-                  cat stderr.log
-              working-directory: ./GLSL-Language-Server/res
-              if: runner.os == 'macOS'
-
             - name: Run tests
               run: xvfb-run -a npm test
               if: runner.os == 'Linux'
