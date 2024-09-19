@@ -33,12 +33,26 @@ jobs:
             - name: Build the tests
               run: npm run build-tests
 
+            - name: List files in res directory (for debugging)
+              run: ls -l ./GLSL-Language-Server/res
+              shell: bash
+              if: runner.os == 'macOS'
+            - name: Print working directory (for debugging)
+              run: pwd
+              working-directory: ./GLSL-Language-Server/res
+              if: runner.os == 'macOS'
+
             - run: chmod +x glslangMac
               working-directory: ./GLSL-Language-Server/res
               if: runner.os == 'macOS'
-            - run: xattr -l glslangMac
+
+            - name: Remove quarantine attribute on macOS (if needed)
+              run: |
+                  xattr -d com.apple.quarantine ./glslangMac
+                  ./glslangMac -v
               working-directory: ./GLSL-Language-Server/res
               if: runner.os == 'macOS'
+
             - run: ./glslangMac -v
               working-directory: ./GLSL-Language-Server/res
               if: runner.os == 'macOS'
