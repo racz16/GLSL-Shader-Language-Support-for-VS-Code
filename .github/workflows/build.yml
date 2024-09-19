@@ -32,6 +32,17 @@ jobs:
               run: npm run prettier-lint
             - name: Build the tests
               run: npm run build-tests
+
+            - run: chmod +x glslangMac
+              working-directory: ./GLSL-Language-Server/res
+              if: runner.os == 'macOS'
+            - run: xattr -l glslangMac
+              working-directory: ./GLSL-Language-Server/res
+              if: runner.os == 'macOS'
+            - run: glslangMac -v
+              working-directory: ./GLSL-Language-Server/res
+              if: runner.os == 'macOS'
+
             - name: Run tests
               run: xvfb-run -a npm test
               if: runner.os == 'Linux'
