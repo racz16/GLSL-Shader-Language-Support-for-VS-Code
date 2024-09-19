@@ -39,7 +39,7 @@ jobs:
             - run: xattr -l glslangMac
               working-directory: ./GLSL-Language-Server/res
               if: runner.os == 'macOS'
-            - run: glslangMac -v
+            - run: ./glslangMac -v
               working-directory: ./GLSL-Language-Server/res
               if: runner.os == 'macOS'
 
