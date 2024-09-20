@@ -20,6 +20,9 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v4
 
+            - run: chmod +x glslangMac
+              working-directory: ./GLSL-Language-Server/res
+              if: runner.os == 'macOS'
             - name: Run glslang and print stdout and stderr
               run: |
                   ./glslangMac -C -l ../../test-fixture/diagnostic-test.frag > stdout.log 2> stderr.log
