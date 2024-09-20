@@ -25,7 +25,7 @@ jobs:
               if: runner.os == 'macOS'
             - name: Run glslang and print stdout and stderr
               run: |
-                  ./glslangMac -C -l ../../test-fixture/diagnostic-test.frag > stdout.log 2> stderr.log || true
+                  cat ../../test-fixture/diagnostic-test.frag | ./glslangMac -C -l -S frag > stdout.log 2> stderr.log || true
                   echo "Standard Output:"
                   cat stdout.log
                   echo "Standard Error:"
