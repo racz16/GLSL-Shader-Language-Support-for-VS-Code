@@ -19,20 +19,6 @@ jobs:
                   submodules: 'true'
             - name: Install Node.js
               uses: actions/setup-node@v4
-
-            - run: chmod +x glslangMac
-              working-directory: ./GLSL-Language-Server/res
-              if: runner.os == 'macOS'
-            - name: Run glslang and print stdout and stderr
-              run: |
-                  cat ../../test-fixture/diagnostic-test.frag | ./glslangMac -C -l --stdin -S frag > stdout.log 2> stderr.log || true
-                  echo "Standard Output:"
-                  cat stdout.log
-                  echo "Standard Error:"
-                  cat stderr.log
-              working-directory: ./GLSL-Language-Server/res
-              if: runner.os == 'macOS'
-
             - name: Install dependencies for the client
               run: npm ci
             - name: Install dependencies for the language server
