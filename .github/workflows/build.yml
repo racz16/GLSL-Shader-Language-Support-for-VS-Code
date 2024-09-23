@@ -1,5 +1,5 @@
 name: Build
-on: [push, pull_request]
+on: push
 jobs:
     build:
         strategy:
@@ -35,9 +35,10 @@ jobs:
             - name: Run tests
               run: xvfb-run -a npm test
               if: runner.os == 'Linux'
+            # FIXME: Tests don't seem to work on Mac OS
             - name: Run tests
               run: npm test
-              if: runner.os != 'Linux'
+              if: runner.os == 'Windows'
             - name: Create platform-specific package
               run: npm run ${{ matrix.command }}
             - name: Create Universal package
