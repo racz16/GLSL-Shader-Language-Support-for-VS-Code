@@ -1,8 +1,37 @@
 {
     "name": "glsl-shader-language-support",
+    "version": "0.1.0",
     "displayName": "GLSL Shader Language Support",
     "description": "A VS Code extension to support the GLSL shader language.",
     "publisher": "raczzalan",
+    "engines": {
+        "vscode": "^1.82.0"
+    },
+    "license": "MIT",
+    "categories": [
+        "Linters",
+        "Programming Languages",
+        "Snippets",
+        "Other"
+    ],
+    "keywords": [
+        "GLSL",
+        "GLSL ES",
+        "ESSL",
+        "OpenGL Shading Language",
+        "shader",
+        "linters",
+        "WebGL",
+        "OpenGL",
+        "Vulkan",
+        "syntax highlight",
+        "linters",
+        "snippets",
+        "graphics",
+        "game"
+    ],
+    "main": "./out/client-desktop",
+    "browser": "./out/client-web",
     "author": {
         "name": "Rácz Zalán",
         "email": "zalan.racz.dev@gmail.com",
@@ -17,32 +46,27 @@
         "email": "zalan.racz.dev@gmail.com",
         "url": "https://github.com/racz16/GLSL-Shader-Language-Support-for-VS-Code/issues"
     },
-    "license": "MIT",
-    "version": "0.0.1",
-    "keywords": [
-        "GLSL",
-        "GLSL ES",
-        "ESSL",
-        "OpenGL Shading Language",
-        "shader",
-        "linters",
-        "WebGL",
-        "OpenGL",
-        "Vulkan"
-    ],
-    "engines": {
-        "vscode": "^1.82.0"
+    "private": "true",
+    "preview": true,
+    "icon": "res/icon/png/icon.png",
+    "galleryBanner": {
+        "color": "#ac162c",
+        "theme": "dark"
     },
-    "categories": [
-        "Linters",
-        "Programming Languages",
-        "Snippets",
-        "Other"
-    ],
-    "main": "./out/client-desktop",
-    "browser": "./out/client-web",
     "activationEvents": [],
+    "capabilities": {
+        "virtualWorkspaces": {
+            "supported": "limited",
+            "description": "In VS Code for the Web the extension can't show errors and warnings in the code."
+        }
+    },
     "contributes": {
+        "snippets": [
+            {
+                "language": "glsl",
+                "path": "snippets.json"
+            }
+        ],
         "languages": [
             {
                 "id": "glsl",
@@ -61,7 +85,10 @@
                     ".frag",
                     ".comp"
                 ],
-                "firstLine": "\\s*#\\s*version\\s+\\d+(\\s+\\w+)?\\s*",
+                "icon": {
+                    "light": "res/icon/png/file-icon-light.png",
+                    "dark": "res/icon/png/file-icon-dark.png"
+                },
                 "configuration": "./GLSL-Language-Server/grammar/language-configuration.json"
             }
         ],
@@ -79,13 +106,13 @@
                     "order": 2,
                     "type": "boolean",
                     "default": true,
-                    "description": "If enabled, the extension shows diagnostic information for all GLSL files in the workspace. If disabled, it shows diagnostic information only for opened GLSL files."
+                    "markdownDescription": "If enabled, the extension shows diagnostic information for all GLSL files in the workspace. If disabled, it shows diagnostic information only for opened GLSL files. Only applies when `#glslLanguageServer.diagnostics.enable#` is enabled."
                 },
                 "glslLanguageServer.diagnostics.markTheWholeLine": {
                     "order": 3,
                     "type": "boolean",
                     "default": false,
-                    "description": "If enabled, the extension underlines the whole line where there is diagnostic information. If disabled, it tries to underline only the relevant part of the line."
+                    "description": "If enabled, the extension underlines the whole line where there is diagnostic information. If disabled, it tries to underline only the relevant part of the line. Only applies when `#glslLanguageServer.diagnostics.enable#` is enabled."
                 },
                 "glslLanguageServer.compiler.glslVersion": {
                     "order": 4,
@@ -258,35 +285,35 @@
         "package-macos-x64": "vsce package --target darwin-x64 --ignoreFile vscodeignore/macos.vscodeignore",
         "package-linux-x64": "vsce package --target linux-x64 --ignoreFile vscodeignore/linux.vscodeignore",
         "package-all": "start npm run package-universal & start npm run package-windows-x64 & start npm run package-macos-x64 & start npm run package-linux-x64",
-        "build-tests": "tsc -p . --outDir out-test",
-        "watch-tests": "tsc -p . -w --outDir out-test",
+        "build-tests": "tsc --project tsconfig.test.json",
+        "watch-tests": "tsc --project tsconfig.test.json -w",
         "prettier-lint": "prettier --check .",
         "prettier-format": "prettier --write .",
-        "pretest": "npm run build-tests && npm run build && npm run lint",
-        "lint": "eslint ./src",
-        "test": "vscode-test",
         "run-in-browser": "vscode-test-web --extensionDevelopmentPath=. .",
+        "eslint": "eslint ./src",
+        "test": "vscode-test",
         "prepare": "husky install"
     },
     "devDependencies": {
-        "@eslint/js": "^9.6.0",
+        "@eslint/js": "^9.10.0",
         "@types/eslint__js": "^8.42.3",
         "@types/mocha": "^10.0.7",
         "@types/node": "20.x",
         "@types/vscode": "^1.82.0",
-        "@vscode/test-cli": "^0.0.9",
-        "@vscode/test-electron": "^2.4.0",
-        "@vscode/test-web": "^0.0.56",
-        "@vscode/vsce": "^3.0.0",
-        "eslint": "^8.57.0",
-        "husky": "^9.0.11",
-        "lint-staged": "^15.2.7",
-        "prettier": "^3.3.2",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "@vscode/test-web": "^0.0.59",
+        "@vscode/vsce": "^3.1.0",
+        "eslint": "^9.10.0",
+        "husky": "^9.1.5",
+        "lint-staged": "^15.2.10",
+        "mocha": "^10.7.3",
+        "prettier": "^3.3.3",
         "prettier-plugin-organize-imports": "^4.0.0",
         "ts-loader": "^9.5.1",
-        "typescript": "^5.5.3",
-        "typescript-eslint": "^7.16.0",
-        "webpack": "^5.92.1",
+        "typescript": "^5.5.4",
+        "typescript-eslint": "^8.4.0",
+        "webpack": "^5.94.0",
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {

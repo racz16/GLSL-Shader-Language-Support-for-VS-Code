@@ -53,12 +53,11 @@ export default tseslint.config(
                     format: ['camelCase'],
                 },
             ],
-            '@typescript-eslint/semi': 'warn',
             eqeqeq: ['error', 'smart'],
             curly: 'warn',
         },
     },
     {
-        ignores: ['.vscode-test', '.vscode-test-web', 'node_modules', 'out', 'out-test', '**/*.js', '**/*.d.ts'],
+        ignores: ['.vscode-test', '.vscode-test-web', 'node_modules', 'out', '**/*.js', '**/*.d.ts'],
     }
 );

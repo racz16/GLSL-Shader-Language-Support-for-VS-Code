@@ -12,11 +12,9 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "files.exclude": {
-        "out": false,
-        "out-test": false
+        "out": false
     },
     "search.exclude": {
-        "out": true,
-        "out-test": true
+        "out": true
     }
 }

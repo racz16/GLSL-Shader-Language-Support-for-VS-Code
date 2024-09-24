@@ -5,8 +5,8 @@
 .vscode-test
 .vscode-test-web
 node_modules
-out-test
 src
+test-fixture
 
 **/.editorconfig
 **/.git
@@ -20,10 +20,12 @@ src
 **/eslint.config.mjs
 **/package-lock.json
 **/tsconfig.json
+**/tsconfig.test.json
 **/webpack.config.js
 **/*.ts
 **/*.map
 **/*.vsix
+**/*.psd
 
 # language server
 
